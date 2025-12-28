@@ -1,0 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}   
+
+body{
+    background: #f4f4f4;
+}
+
+/* navbar */
+
+.navbar{
+    background: #3f2b96;
+    color: white;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links a {
+    margin-right: 16px;
+    color: white;
+    text-decoration: none;
+}
+
+.nav-links button {
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+/* HERO */
+
+.hero{
+    background: linear-gradient(120deg, #3f2b96, #a8c0ff);
+    color: white;
+    text-align: center;
+    padding: 48px 16px;
+
+}
+
+.hero input {
+    width: 300px;
+    padding: 10px;
+    margin-top: 16px;
+    border-radius: 20px;
+    border: none;
+}
+
+.price-filter {
+    margin-top: 16px;
+}
+
+/* RESULTS */
+
+.results {
+    padding: 32px;
+}
+
+.car-grid {
+    display: grid;
+    gap: 24px;
+    margin-top: 16px;
+}
+
+.car-card {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+}
+
+.car-card img {
+    width: 100%;
+    border-radius: 8px;
+    
+}
+
+.car-card h4 {
+    margin: 10px 0;
+
+}
