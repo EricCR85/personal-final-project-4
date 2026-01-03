@@ -1,7 +1,7 @@
 // alert("JS is connected")
-
-const API_KEY = "5a1fe6ec";
-
+const OMDB_URL = "https://www.omdbapi.com/";
+const API_KEY = `9db3ff50f370b9420c7cc3fda825960b`;
+const OMDB_API_KEY = `5a1fe6ec`
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 
@@ -27,7 +27,7 @@ searchinput.addEventListener("keydown", (e) => {
   }
 });
 
-function showStatues(message) {
+function showStatus(message) {
   moviesContainer.innerHTML = `<p style="padding:12px">${message}</p>`;
 }
 
@@ -37,7 +37,7 @@ async function fetchMovies(url) {
     const res = await fetch(url);
     const data = await res.json();
 
-    if (data.status_cod && data.status_message) {
+    if (data.status_code && data.status_message) {
       showStatus(`Error: ${data.status_message}`);
       return;
     }
@@ -57,9 +57,9 @@ async function fetchMovies(url) {
 
 async function searchMovies(query) {
   try {
-    showStatues("Searching...");
+    showStatus("Searching...");
     const res = await fetch(
-      `${BASE_URL}/search/movie?api_key${API_KEY}&query=${encodeURIComponent(
+      `${BASE_URL}/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(
         query
       )}`
     );
@@ -82,74 +82,50 @@ async function searchMovies(query) {
 async function searchOmdb(query) {
   try {
     const res = await fetch(
-      `${OMDB_URL}?apikey=${API_KEY}&s=${encodeURIComponent(query)}`
+      `${OMDB_URL}?apikey=${OMDB_API_KEY}&s=${encodeURIComponent(query)}`
     );
     const data = await res.json();
     const results = Array.isArray(data.Search) ? data.Search : [];
-    if (!results.length){
-    return showStatues("No results found.");
+    if (!results.length) {
+      return showStatus("No results found.");
+    }
+
+    const normalized = results.map((r) => ({
+      title: r.Title,
+      poster_path: r.Poster && r.Poster !== "N/A" ? r.Poster : null,
+      vote_average: r.imdbRating || "N/A",
+      release_date: r.Year ? `${r.Year}-01-01` : "",
+    }));
+    displayMovies(normalized);
+  } catch (err) {
+    console.error(err);
+    showStatus("Search failed.");
   }
-
-  const normalized = resutls.map((r) => ({
-    title: r.Title,
-    poster_path: r.Poster && r.Poster !== "N/A" ? r.Poster : null,
-    vote_average: r.imdbRating || "N/A",
-    release_data: r.Year ? `${r.Year}-01-01` : "",
-  }));
-  displayMovies(normalized);
-} catch (err) {
-  console.error(err);
-  showStatues("Search failed.");
-}
 }
 
-function displayMovies(movies){
+function displayMovies(movies) {
   moviesContainer.innerHTML = "";
 
-  movies.forEach ((movie) => {
-    const poster = movie.poster_path 
-    ? (movie.poster_path.startsWith("http")
-    ? movie.poster_path
-    : IMG_URL + movie.poster_path)
-    : "https://via.placeholder.com/300x450?text=No+Image";
+  movies.forEach((movie) => {
+    const poster = movie.poster_path
+      ? movie.poster_path.startsWith("http")
+        ? movie.poster_path
+        : IMG_URL + movie.poster_path
+      : "https://via.placeholder.com/300x450?text=No+Image";
 
-  const movieEL = document.createElement("div");
-  movieEL.classList.add("movie");
-  movieEL.innerHTML = `
+    const movieEL = document.createElement("div");
+    movieEL.classList.add("movie");
+    movieEL.innerHTML = `
   <img src ="${poster}" alt="${movie.title}" />
   <h4>${movie.title}</h4>
   <p>Rating: ${movie.vote_average ?? "N/A"}</p>
-  <p>${movie.release_data ? movie.release_data.substring(0, 4) : ""}</p>
+  <p>${movie.release_date ? movie.release_date.substring(0, 4) : ""}</p>
   `;
-  moviesContainer.appendChild(movieEL);
+    moviesContainer.appendChild(movieEL);
   });
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-_
 // function displayMOvies(movies) {
 //   moviesContainer.innerHTML = "";
 // }
