@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browes Movies</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/1a8ef3541f.js" crossorigin="anonymous"></script>"></script>
+    <script src="https://kit.fontawesome.com/1a8ef3541f.js" crossorigin="anonymous"></script></script>
 </head>
 <body>
     <header class="navbar">
+       
         <h1>Movie Finder</h1>
         <nav>
             <a href="#">Home</a>
@@ -17,15 +18,23 @@
         </nav>
     </header>
     <section class="hero">
+        <main>
         <h2>Browes Movies</h2>
         <div class="search box">
+
+           <select id="ratingFilter">
+              <option value="">Select Ratings</option>
+              <option value="G">G</option>  
+              <option value="PG">PG</option>  
+              <option value="PG-13">PG-13</option>  
+              <option value="R">R</option>  
+        </select>
             <input type="text" id="searchinput" placeholder="Search by movie title">
-            <button id="searchBtn" class="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
+            <button id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i></button>
         </div>
-    </section>
-    <main>
         <h3>Search Results</h3>
-        <div id="movies" class="movies movie-grid"></div>
+    </section>
+        <div id="movies" class="movie-grid"></div>
     </main>
     <script src="index.js"></script>
 </body>

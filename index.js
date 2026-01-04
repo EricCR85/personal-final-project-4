@@ -1,9 +1,12 @@
 // alert("JS is connected")
 const OMDB_URL = "https://www.omdbapi.com/";
 const API_KEY = `9db3ff50f370b9420c7cc3fda825960b`;
-const OMDB_API_KEY = `5a1fe6ec`
+const OMDB_API_KEY = `5a1fe6ec`;
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
+
+// const ratingFilter = document.getElementById("ratingFilter");
+const movieGrid = document.getElementById("movieGrid")
 
 const moviesContainer = document.getElementById("movies");
 const searchBtn = document.getElementById("searchBtn");
@@ -16,8 +19,9 @@ fetchMovies(
 
 searchBtn.addEventListener("click", () => {
   const query = searchinput.value.trim();
+  const rating = ratingFilter.value;
   if (query) {
-    searchMovies(query);
+    searchMovies(query, rating);
   }
 });
 
@@ -54,6 +58,28 @@ async function fetchMovies(url) {
     showStatus("Failed to load movies.");
   }
 }
+
+// async function searchMovies(query, rating) {
+//   showStatus("Searching...");
+//   const url = `${searchURL}${encodeURLComponent(query)}`;
+//   const res = await res.json();
+//   const results = Array.isArray(data.results) ? data.results : [];
+
+//   const filtered = rating
+//   ? results.filter(movie => mapRating(movies.vote_average) === rating)
+//   : results;
+
+//   displayMovies(filtered)
+// }
+
+// function mapRating(score){
+//   if (score >= 7.5) return "PG-13";
+//   if (score >= 6) return "PG";
+//   if (score >= 4.5) return "G";
+//   return "R";
+// }
+
+
 
 async function searchMovies(query) {
   try {
@@ -103,6 +129,52 @@ async function searchOmdb(query) {
   }
 }
 
+function filterByRating(movies, minRating) {
+  if (minRating === "all") return movies;
+  return movies.filter((movie) => movie.rating >= parseFloat(minRating));
+}
+
+const ratingFilter = document.getElementById("ratingFilter").value;
+const filtered = filterByRating(movies, ratingFilter);
+
+const container = document.querySelector(".searchResults");
+container.innerHTML = "";
+
+filtered.forEach((movie) => {
+  const card = document.createElement("div");
+  card.className = "movie-card";
+  card.innerHTML = `<img src="${movie.poster}" alt="${movie.title}" />
+  <h3>${movie.title}</h3>
+  <p>Rating: ${movie.rating}</p>
+  `;
+  container.appendChild(card);
+});
+
+// function displayMovies(movies) {
+//   movieGrid.innerHTML = "";
+//   movies.forEach((movie) => {
+//     const poster = movie.poster_path
+//     ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+//     : "https://via.placeholder.com/300x450?text=NO+Image";
+
+//     const card = document.createElement("div");
+//     card.className = "movie-card";
+//     card.innerHTML = `
+//     <img src="${poster}" alt+"${movie.title}" />
+//     <h3>${movie.title}</h3>
+//     <p>Rating: ${movie.vote_adverage || "N/A"}</p>
+//     <p>${movie.release_date || "Unknnow"}</p>
+//     `;
+//     movieGrid.appendChild(card)
+//   })
+// }
+
+
+
+
+
+
+
 function displayMovies(movies) {
   moviesContainer.innerHTML = "";
 
@@ -125,23 +197,8 @@ function displayMovies(movies) {
   });
 }
 
-
-// function displayMOvies(movies) {
-//   moviesContainer.innerHTML = "";
-// }
-
-// function displayMovies() {
-//   moviesContainer.innerHTML = "<h1 style='color:white'>IT WORKS</h1>";
-// }
-
-// movies.forEach((movie) => {
-//   const movieEl = document.createElement("div");
-//   movieEl.classList.add("movie");
-
-//   movieEl.innerHTML = `
-//     <img src="${poster}" />
-//     <h4>${movie.title}</h4>
-//     <p>${movie.vote_average}</p>
-//     <p>${movie.release_date ? movie.release_date.substring(0, 4) : ""}</p>`;
-//   moviesContainer.appendChild(movieEl);
-// });
+document.getElementById('ratingFilter').addEventListener('change', () => {
+  if (window.lastResults) {
+    displayMovies(window.lastResults);
+  }
+});
