@@ -95,7 +95,7 @@ height: auto;
   margin: auto;
 }
 
-.movie-card {
+.movie {
   background: #100f1f;
   color: #fff;
   border-radius: 8px;
@@ -108,7 +108,7 @@ height: auto;
   align-items: center;
 }
 
-.movie-card img {
+.movie img {
     width: 100%;
     max-width: 200px;
     height: auto;
@@ -116,7 +116,7 @@ height: auto;
     margin-bottom: 10px;
 }
 
-.movie-card:hover {
+.movies:hover {
   transform: translateY(-5px);
 }
 

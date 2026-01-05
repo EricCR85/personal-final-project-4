@@ -1,4 +1,6 @@
 // alert("JS is connected")
+// let searchMovies = []; // store all movies from last search 
+
 const OMDB_URL = "https://www.omdbapi.com/";
 const API_KEY = `9db3ff50f370b9420c7cc3fda825960b`;
 const OMDB_API_KEY = `5a1fe6ec`;
@@ -59,11 +61,44 @@ async function fetchMovies(url) {
   }
 }
 
-// async function searchMovies(query, rating) {
-//   showStatus("Searching...");
-//   const url = `${searchURL}${encodeURLComponent(query)}`;
-//   const res = await res.json();
-//   const results = Array.isArray(data.results) ? data.results : [];
+async function searchMovies(query) {
+  showStatus("Searching...");
+  const url = `${searchURL}${encodeURLComponent(query)}`;
+  const res = await res.json();
+  const results = Array.isArray(data.results) ? data.results : [];
+
+  if (!results.length){
+    showStatus("NO results found.");
+    return;
+  }
+
+  searchMovies = results;
+  displayMovies(results);
+
+}
+
+function filterByRatingThreshold(threshold, direction = "higher"){
+  if (!searchMovies.length){
+    showStatus("No moviews to filter.");
+  }
+
+  const filtered = searchedMovies.filter((movie) => {
+    const rating = parseFloat(movie.vote-average);
+    if (isNaN(rating)) return false;
+    return direction === "higher" ? rating >= threshold : rating < threshold;
+  }); 
+
+  if (!filtered.length) {
+    showStatus("No movies match the rating filter.");
+    return;
+  }
+
+  displayMovies(filtered);
+}
+
+filterByRatingThreshold(7.0, "higher");
+filterByRatingThreshold(5.0, "lower");
+
 
 //   const filtered = rating
 //   ? results.filter(movie => mapRating(movies.vote_average) === rating)
@@ -105,6 +140,8 @@ async function searchMovies(query) {
     return searchOmdb(query);
   }
 }
+
+
 async function searchOmdb(query) {
   try {
     const res = await fetch(
