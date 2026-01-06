@@ -1,5 +1,5 @@
 // alert("JS is connected")
-// let searchMovies = []; // store all movies from last search
+let searchMovies = []; // store all movies from last search
 
 const OMDB_URL = "https://www.omdbapi.com/";
 const API_KEY = `9db3ff50f370b9420c7cc3fda825960b`;
@@ -7,10 +7,10 @@ const OMDB_API_KEY = `5a1fe6ec`;
 const BASE_URL = "https://api.themoviedb.org/3";
 const IMG_URL = "https://image.tmdb.org/t/p/w500";
 
-// const ratingFilter = document.getElementById("ratingFilter");
+const ratingFilter = document.getElementById("ratingFilter");
 const movieGrid = document.getElementById("movieGrid");
-const movieContainer = document.querySelector(".container")
-// const moviesContainer = document.getElementById("movies");
+const moviesContainer = document.querySelector(".container")
+const moviesContainer = document.getElementById("movies");
 const searchBtn = document.getElementById("searchBtn");
 const searchinput = document.getElementById("searchinput");
 // const poster = movie.poster_path ? IMG_URL + movie.poster_path : "https://via.placeholder.com/300x450?text=No+Image";
