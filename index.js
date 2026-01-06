@@ -111,7 +111,7 @@ function displayMovies(movies) {
       ? (movie.poster_path.startsWith("http")
           ? movie.poster_path
           : IMG_URL + movie.poster_path)
-      : "https://via.placeholder.com/300x450?text=No+Image";
+      : "https://placehold.co/300x450?text=No+Image";
 
     const movieEL = document.createElement("div");
     movieEL.classList.add("movie");
